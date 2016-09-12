@@ -16,13 +16,16 @@ var populationFactory = {
 
 function _getCreepsInRole(roleName) {
     var creepsInRole = [];
-    for (var i = 0; i < Game.creeps.length; i++) {
-        var creep = Game.creeps[i];
-        if (creep.memory.role === roleName) {
-            creepsInRole.push(creep);
+    for (var creepName in Game.creeps) {
+        if(Game.creeps.hasOwnProperty(creepName)) {
+            var creep = Game.creeps[creepName];
+            if (creep.memory.role === roleName) {
+                creepsInRole.push(creep);
+            }
         }
     }
 
+    // console.log("There are [" + creepsInRole.length + "] creeps in role [" + roleName + "]");
     return creepsInRole;
 }
 

@@ -37,15 +37,15 @@ module.exports.loop = function () {
     var population = [
         {
             role: 'upgrader',
-            count: 4,
+            count: 12,
             parts: [WORK, CARRY, MOVE]
         }, {
             role: 'builder',
-            count: 2,
+            count: 5,
             parts: [WORK, CARRY, MOVE]
         }, {
             role: 'harvester',
-            count: 1,
+            count: 2,
             parts: [WORK, CARRY, MOVE]
         }
     ];

@@ -3,7 +3,7 @@ var transferAction = {
         if (creep.memory.action !== 'transfer')  return;
 
         if (creep.carry.energy === 0) {
-            creep.say('Out of energy');
+            creep.say('Empty');
             creep.memory.action = afterAction ? afterAction : 'harvest';
         }
 
