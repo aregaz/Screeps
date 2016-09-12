@@ -5,16 +5,16 @@ var roleBuilder = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
-        var buildTargets = creep.room.find(FIND_CONSTRUCTION_SITES);
-        if (buildTargets.length > 0) {
-            buildAction.do(creep, buildTargets[0], 'harvest');
+        var nearestTarget = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES);
+        if (typeof nearestTarget !== 'undefined') {
+            buildAction.run(creep, nearestTarget, 'harvest');
         } else {
             console.log('Builder [' + creep.name + '] cannot find a target to build.');
-            creep.say('I`m useless :(');
+            creep.say('??');
         }
 
         var source = creep.room.find(FIND_SOURCES)[1]; // TODO: choose nearest source
-        harvestAction.do(creep, source, "build");
+        harvestAction.run(creep, source, "build");
     }
 };
 

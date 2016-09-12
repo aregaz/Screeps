@@ -1,5 +1,5 @@
 var upgradeAction = {
-    do: function upgradeFull(creep, controller, afterAction) {
+    run: function upgradeFull(creep, controller, afterAction) {
         if (creep.memory.action !== 'upgrade') return;
 
         if (creep.carry.energy === 0) {

@@ -1,5 +1,5 @@
 var transferAction = {
-    do: function(creep, target, afterAction) {
+    run: function(creep, target, afterAction) {
         if (creep.memory.action !== 'transfer')  return;
 
         if (creep.carry.energy === 0) {

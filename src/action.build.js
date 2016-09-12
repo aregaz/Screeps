@@ -1,5 +1,5 @@
 var buildAction = {
-    do: function (creep, target, afterAction) {
+    run: function (creep, target, afterAction) {
         if (creep.memory.action !== 'build') return;
 
         if (creep.carry.energy === 0) {

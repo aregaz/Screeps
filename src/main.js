@@ -45,7 +45,7 @@ module.exports.loop = function () {
             parts: [WORK, CARRY, MOVE]
         }, {
             role: 'harvester',
-            count: 2,
+            count: 4,
             parts: [WORK, CARRY, MOVE]
         }
     ];

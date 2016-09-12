@@ -20,13 +20,13 @@ var roleHarvester = {
         var target = _findTarget(creep.room);
 
         if (target) {
-            transferAction.do(creep, target, "harvest");
+            transferAction.run(creep, target, "harvest");
         } else {
             // console.log('Harvester [' + creep.name + '] cannot find a target to bring enery to.');
             creep.say('I`m useless :(');
         }
 
-        harvestAction.do(creep, source, "transfer");
+        harvestAction.run(creep, source, "transfer");
     }
 };
 

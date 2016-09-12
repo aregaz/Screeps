@@ -8,8 +8,8 @@ var roleUpgrader = {
         var source = creep.room.find(FIND_SOURCES)[1]; // TODO: choose nearest source
         var controller = creep.room.controller;
 
-        harvestAction.do(creep, source, "upgrade");
-        upgradeAction.do(creep, controller, "harvest");
+        harvestAction.run(creep, source, "upgrade");
+        upgradeAction.run(creep, controller, "harvest");
     }
 };
 

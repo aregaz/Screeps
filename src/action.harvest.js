@@ -1,5 +1,5 @@
 var harvestAction = {
-    do: function(creep, source, afterAction) {
+    run: function(creep, source, afterAction) {
         if (typeof creep.memory.action === 'undefined') {
             creep.memory.action = 'harvest';
         }
