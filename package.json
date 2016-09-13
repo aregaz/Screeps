@@ -2,7 +2,7 @@
   "name": "screeps",
   "version": "1.0.0",
   "description": "Scripts of Screeps world",
-  "main": "main.js",
+  "main": "gruntfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,6 +13,9 @@
   "keywords": [
     "screeps"
   ],
+  "dependencies": {
+      "grunt-screeps": "1.2.1"
+  },
   "author": "Illia Ratkevych",
   "license": "MIT",
   "bugs": {
