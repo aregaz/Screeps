@@ -10,7 +10,7 @@ var buildAction = {
         if(creep.build(target) == ERR_NOT_IN_RANGE) {
             creep.moveTo(target);
         } else {
-            creep.say('Building');
+            //creep.say('Building');
         }
     }
 };
