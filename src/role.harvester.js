@@ -1,3 +1,5 @@
+/*jshint esversion: 6 */
+
 var harvestAction = require('action.harvest');
 var transferAction = require('action.transfer');
 
@@ -8,10 +10,10 @@ var roleHarvester = {
         function _findTarget(room) {
             var targets = room.find(FIND_STRUCTURES, {
                     filter: (structure) => {
-                        return (structure.structureType == STRUCTURE_EXTENSION ||
-                                structure.structureType == STRUCTURE_CONTAINER ||
-                                structure.structureType == STRUCTURE_SPAWN ||
-                                structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
+                        return ([STRUCTURE_SPAWN, STRUCTURE_EXTENSION, STRUCTURE_TOWER].indexOf(structure.structureType) > -1 &&
+                                structure.energy < structure.energyCapacity) ||
+                            ([STRUCTURE_CONTAINER].indexOf(structure.structureType) > -1 &&
+                                structure.store.energy < structure.energyCapacity);
                     }
             });
             return targets[0]; // TODO: find closest target
