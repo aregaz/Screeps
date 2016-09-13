@@ -14,7 +14,7 @@
     "screeps"
   ],
   "dependencies": {
-      "grunt-screeps": "1.2.1"
+    "grunt-screeps": "^1.2.1"
   },
   "author": "Illia Ratkevych",
   "license": "MIT",
