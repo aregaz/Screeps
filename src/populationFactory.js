@@ -6,7 +6,7 @@ var populationFactory = {
 
             var creepsInRole = _getCreepsInRole(populationRule.role);
             while (creepsInRole.length < populationRule.count) {
-                // console.log('New creep with role [' + populationRule.role + '] is been creating');
+                console.log('New creep with role [' + populationRule.role + '] is been creating');
                 Game.spawns[spawnName].createCreep(populationRule.parts, undefined, { role : populationRule.role });
                 creepsInRole++;
             }

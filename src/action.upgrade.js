@@ -7,10 +7,11 @@ var upgradeAction = {
             creep.memory.action = afterAction ? afterAction : 'harvest';
         }
 
-        if(creep.upgradeController(controller) == ERR_NOT_IN_RANGE) {
+        var result = creep.upgradeController(controller);
+        if (result == ERR_NOT_IN_RANGE) {
             creep.moveTo(controller);
-        } else {
-            creep.say('Upgrading');
+        } else if(result === OK) {
+            // creep.say('Upgrading');
         }
     }
 };

@@ -26,7 +26,7 @@ var roleHarvester = {
             transferAction.run(creep, target, "harvest");
         } else {
             // console.log('Harvester [' + creep.name + '] cannot find a target to bring enery to.');
-            creep.say('I`m useless :(');
+            creep.say('??');
         }
 
         harvestAction.run(creep, source, "transfer");

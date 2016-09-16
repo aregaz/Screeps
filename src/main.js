@@ -6,7 +6,47 @@ var roleBuilder = require('role.builder');
 
 var populationFactory = require('populationFactory');
 
+global.filterCreeps = function(predicate) {
+    var creepsInRole = [];
+    for (var creepName in Game.creeps) {
+        if(Game.creeps.hasOwnProperty(creepName)) {
+            var creep = Game.creeps[creepName];
+            if (predicate(creep)) {
+                creepsInRole.push(creep);
+            }
+        }
+    }
+
+    return creepsInRole;
+}
+
+global.printCreeps = function(creeps) {
+    for (var i = 0; i < creeps.length; i++) {
+        var creep = creeps[i];
+        console.log('Name: ' + creep.name + ', Role: ' + creep.memory.role + ', Action: ' + creep.memory.action + 'Body: ' + creep.body);
+    }
+}
+
+//global.printCreeps(global.filterCreeps(function(creep) {return creep.memory.role === "builder"}))
+
 module.exports.loop = function () {
+    function _clearMemory() {
+        function _isCreepAlive(creepName) {
+            return typeof Game.creeps[creepName] !== 'undefined';
+        }
+        
+        for(var creepName in Memory.creeps) {
+            if (Memory.creeps.hasOwnProperty(creepName)) {
+                if (!_isCreepAlive(creepName)) {
+                    delete Memory.creeps[creepName];
+                    console.log('Creep memory for ' + creepName + ' was cleared');
+                }
+            }
+        }
+    }
+    
+    _clearMemory();
+    
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
         if(creep.memory.role == 'harvester') {
@@ -24,15 +64,20 @@ module.exports.loop = function () {
         {
             role: 'upgrader',
             count: 5,
-            parts: [WORK, WORK, CARRY, CARRY, MOVE]
+            parts: [WORK, CARRY, MOVE]
         }, {
             role: 'builder',
-            count: 1,
+            count: 2,
             parts: [WORK, CARRY, MOVE]
         }, {
             role: 'harvester',
             count: 3,
-            parts: [WORK, WORK, WORK, CARRY, MOVE]
+            parts: [WORK, CARRY, MOVE]
+        },
+        {
+            role: 'upgrader',
+            count: 2,
+            parts: [WORK, WORK, WORK,CARRY, MOVE]
         }
     ];
     populationFactory.run(population, 'Spawn1');
