@@ -24,15 +24,15 @@ module.exports.loop = function () {
         {
             role: 'upgrader',
             count: 5,
-            parts: [WORK, CARRY, MOVE]
+            parts: [WORK, WORK, CARRY, CARRY, MOVE]
         }, {
             role: 'builder',
-            count: 2,
+            count: 1,
             parts: [WORK, CARRY, MOVE]
         }, {
             role: 'harvester',
             count: 3,
-            parts: [WORK, CARRY, MOVE]
+            parts: [WORK, WORK, WORK, CARRY, MOVE]
         }
     ];
     populationFactory.run(population, 'Spawn1');
