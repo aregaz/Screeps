@@ -9,7 +9,7 @@ var repairerRole = {
 
         repairAction.run(creep, target, 'harvest');
         harvestAction.run(creep, _findClosestSource(creep), 'repair');
-        idleAction.run(creep, { x:22, y:28 }, null, 'repair');
+        idleAction.run(creep, { x:22, y:28 }, _stopIdleCondition, 'repair');
     }
 };
 
@@ -36,9 +36,7 @@ function _findMostDemagedTarget(creep) {
         sort: function(structure1, structure2) {
             return structure1.hits > structure2.hits;
         },
-        filter: function(structure) {
-            return structure.hits < structure.hitsMax / 2;
-        }
+        filter: _isStructureDemaged
     });
 
     if (strucutres.length === 0) return;
@@ -47,17 +45,21 @@ function _findMostDemagedTarget(creep) {
 }
 
 function _findClosestTarget(creep) {
-    var target = creep.pos.findClosest(FIND_STRUCTURES, { filter: function(structure) {
-         return structure.hits < structure.hitsMax / 3;
-    }});
-
-    return target;
+    return creep.pos.findClosestByRange(FIND_STRUCTURES, { filter: _isStructureDemaged });
 }
 
 function _findClosestSource(creep) {
     // var source = creep.room.find(FIND_SOURCES)[1]; // TODO: choose nearest source
-    var source = creep.pos.findClosestByRange(FIND_SOURCES);
-    return source;
+    return creep.pos.findClosestByRange(FIND_SOURCES);
+}
+
+function _isStructureDemaged(structure) {
+    return structure.hits < (structure.hitsMax * 0.75);
+}
+
+function _stopIdleCondition(creep) {
+    var demagedTartet = _findMostDemagedTarget(creep);
+    return demagedTartet !== null && typeof demagedTartet !== 'undefined';
 }
 
 module.exports = repairerRole;

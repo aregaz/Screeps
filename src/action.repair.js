@@ -13,7 +13,7 @@ var repairAction = {
         }
 
         if (creep.energy === 0) {
-            creep.memory.action = afterAction ? afterAction : 'harvest';
+            creep.memory.action = 'harvest';
             return;
         }
 
