@@ -18,7 +18,7 @@ var repairerRole = {
             creep.memory.action = 'idle';
             creep.memory.targetId = undefined;
 
-            idleAction.run(creep, { x:18, y:41 }, null, 'repair');
+            idleAction.run(creep, { x:22, y:28 }, null, 'repair');
         }
     }
 };
