@@ -5,7 +5,7 @@ var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var roleRepairer = require('role.repairer');
 
-var populationFactory = require('utils.populationFactory');
+var populationController = require('main.populationController');
 
 global.roomName = 'W54S28';
 
@@ -115,5 +115,5 @@ module.exports.loop = function () {
             startAction: 'harvest'
         }
     ];
-    populationFactory.run(population, 'Spawn1');
+    populationController.run(population, 'Spawn1');
 };

@@ -1,7 +1,7 @@
 var creepsHelper = require('utils.creepsHelper');
-var nameGenerator = require('utils.nameGenerator');
+var populationHelper = require('utils.populationHelper');
 
-var populationFactory = {
+var populationController = {
     run: function(population, spawnName) {
         for (var i = 0; i < population.length; i++) {
             var populationRule = population[i];
@@ -15,11 +15,12 @@ var populationFactory = {
 
                 var createCreepResult = Game.spawns[spawnName].createCreep(
                     populationRule.parts,
-                    nameGenerator.getNewNameForRole(populationRule.role),
+                    populationHelper.getNewNameForRole(populationRule.role),
                     creepMemory);
                 if(createCreepResult === ERR_NOT_ENOUGH_ENERGY) {
                     var fullRoomEnergy = Game.rooms.W54S28.energyAvailable;
-                    console.log('Cannot create creep - no energy (' + fullRoomEnergy+ ')');
+                    var requiredEnergy = populationHelper.calculateBodyCost(populationRule.parts);
+                    console.log('Cannot create creep - no energy (' + fullRoomEnergy + '/' + requiredEnergy + ')');
                 } else if(createCreepResult === ERR_BUSY) {
                     // busy
                 } else {
@@ -40,4 +41,4 @@ var populationFactory = {
 
 
 
-module.exports = populationFactory;
+module.exports = populationController;
