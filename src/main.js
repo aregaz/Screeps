@@ -85,25 +85,26 @@ module.exports.loop = function () {
     }
 
     var population = [
+        // {
+        //     role: 'upgrader',
+        //     count: 5,
+        //     parts: [WORK, CARRY, MOVE],
+        //     startAction: 'harvest'
+        // },
         {
-            role: 'upgrader',
-            count: 5,
-            parts: [WORK, CARRY, MOVE],
-            startAction: 'harvest'
-        }, {
             role: 'builder',
             count: 2,
-            parts: [WORK, CARRY, MOVE],
+            parts: [WORK, WORK, CARRY, MOVE],
             startAction: 'harvest'
         }, {
             role: 'harvester',
             count: 3,
-            parts: [WORK, CARRY, MOVE],
+            parts: [WORK, WORK, CARRY, MOVE],
             startAction: 'harvest'
         },
         {
             role: 'upgrader',
-            count: 2,
+            count: 7,
             parts: [WORK, WORK, WORK,CARRY, MOVE],
             startAction: 'harvest'
         },
