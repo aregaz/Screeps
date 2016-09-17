@@ -47,7 +47,7 @@ function _findMostDemagedTarget(creep) {
             return structure1.hits > structure2.hits;
         },
         filter: function(structure) {
-            return structure.hits < structure.hitsMax / 3;
+            return structure.hits < structure.hitsMax / 2;
         }
     });
 
