@@ -9,7 +9,9 @@ function _getNewCreepName(roleName) {
     var creepIds = creepsHelper.getCreepsInRole(roleName)
         .map((creep) => creep.name)
         .map(_getIdFromName)
-        .sort();
+        .sort(function(a, b) {
+            return a > b;
+        });
     var maxId = creepIds[creepIds.length - 1];
 
     return roleName + '_' + (maxId+1);
@@ -21,7 +23,7 @@ function _getIdFromName(creepName) {
         var id = parseInt(nameParts[1]);
         return id;
     } catch (e) {
-        console.log('ERROR: unable to parse creepId from his name [${creepName}]. Exception: ${e}');
+        console.log('ERROR: unable to parse creepId from his name ' + creepName + '. Exception: ${e}');
         return -1;
     }
 }
