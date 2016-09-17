@@ -18,6 +18,10 @@ function _getNewCreepName(roleName) {
 }
 
 function _getIdFromName(creepName) {
+    if (creepName.indexOf('_') === -1) {
+        return -1;
+    }
+
     try {
         var nameParts = creepName.split('_');
         var id = parseInt(nameParts[1]);
