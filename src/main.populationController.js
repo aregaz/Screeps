@@ -54,7 +54,7 @@ function _createCreep(populationRule, roomName, spawnName) {
     } else {
         if (_.isString(createCreepResult)) {
             console.log('Creep creation result: Name = [' + createCreepResult + '], ' +
-                'Role = [' + creep.memory.role + ']');
+                'Role = [' + populationRule.role + ']');
         } else {
             console.log('Cannot create creep. Result = ' + createCreepResult);
         }
