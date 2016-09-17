@@ -9,6 +9,21 @@ var populationFactory = require('utils.populationFactory');
 
 global.roomName = 'W54S28';
 
+global.getIdFromName = function(creepName) {
+    if (creepName.indexOf('_') === -1) {
+        return -1;
+    }
+
+    try {
+        var nameParts = creepName.split('_');
+        var id = parseInt(nameParts[1]);
+        return id;
+    } catch (e) {
+        console.log('ERROR: unable to parse creepId from his name ' + creepName + '. Exception: ${e}');
+        return -1;
+    }
+}
+
 global.filterCreeps = function(predicate) {
     var creepsInRole = [];
     for (var creepName in Game.creeps) {
