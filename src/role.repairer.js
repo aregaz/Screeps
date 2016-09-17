@@ -59,7 +59,8 @@ function _findClosestTarget(creep) {
 }
 
 function _findClosestSource(creep) {
-    var source = creep.pos.findClosest(FIND_SOURCES);
+    // var source = creep.room.find(FIND_SOURCES)[1]; // TODO: choose nearest source
+    var source = creep.pos.findClosestByRange(FIND_SOURCES);
     return source;
 }
 
