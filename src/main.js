@@ -24,7 +24,10 @@ global.filterCreeps = function(predicate) {
 global.printCreeps = function(creeps) {
     for (var i = 0; i < creeps.length; i++) {
         var creep = creeps[i];
-        console.log('Name: ' + creep.name + ', Role: ' + creep.memory.role + ', Action: ' + creep.memory.action + 'Body: ' + creep.body);
+        console.log('Name: ' + creep.name +
+            ', Role: ' + creep.memory.role +
+            ', Action: ' + creep.memory.action +
+            ', Body: ' + creep.body);
     }
 }
 
