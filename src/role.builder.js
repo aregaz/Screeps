@@ -15,7 +15,7 @@ var roleBuilder = {
 
 function _stopIdleCondition(creep) {
     var newTarget = _selectTarget(creep);
-    return neadersTarget !== null && typeof newTarget !== 'undefined';
+    return newTarget !== null && typeof newTarget !== 'undefined';
 }
 
 function _selectTarget(creep) {
