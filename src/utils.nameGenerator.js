@@ -10,9 +10,9 @@ function _getNewCreepName(roleName) {
         .map((creep) => creep.name)
         .map(_getIdFromName)
         .sort(function(a, b) {
-            return a > b;
+            return a < b; // desc
         });
-    var maxId = creepIds[creepIds.length - 1];
+    var maxId = creepIds[0];
 
     return roleName + '_' + (maxId+1);
 }
