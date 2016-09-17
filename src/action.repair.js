@@ -6,6 +6,12 @@ var repairAction = {
         if (creep.energy === 0) {
             creep.memory.action = 'harvest';
         } else {
+            if (!target) {
+                creep.memory.targetId = undefined;
+                creep.memory.action = 'idle';
+                return;
+            }
+
             var repairResult = creep.repair(target);
 
             if (repairResult === ERR_NOT_IN_RANGE) {
