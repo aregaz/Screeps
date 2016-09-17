@@ -20,7 +20,8 @@ var populationController = {
                 if(createCreepResult === ERR_NOT_ENOUGH_ENERGY) {
                     var fullRoomEnergy = Game.rooms.W54S28.energyAvailable;
                     var requiredEnergy = populationHelper.calculateBodyCost(populationRule.parts);
-                    console.log('Cannot create creep - no energy (' + fullRoomEnergy + '/' + requiredEnergy + ')');
+                    console.log('Cannot create creep [' + populationRule.role +
+                        '] - no energy (' + fullRoomEnergy + '/' + requiredEnergy + ')');
                 } else if(createCreepResult === ERR_BUSY) {
                     // busy
                 } else {
