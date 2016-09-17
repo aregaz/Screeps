@@ -11,9 +11,8 @@ var repairerRole = {
             creep.memory.action = 'repair';
         }
 
-        repairAction.run(creep, target, 'repair');
-        var source = creep.room.find(FIND_SOURCES)[0]; // TODO: choose nearest source
-        harvestAction.run(creep, source, 'repair');
+        repairAction.run(creep, target, 'harvest');
+        harvestAction.run(creep, _findClosestSource(creep), 'repair');
         idleAction.run(creep, { x:22, y:28 }, null, 'repair');
     }
 };
@@ -57,6 +56,11 @@ function _findClosestTarget(creep) {
     }});
 
     return target;
+}
+
+function _findClosestSource(creep) {
+    var source = creep.pos.findClosest(FIND_SOURCES);
+    return source;
 }
 
 module.exports = repairerRole;

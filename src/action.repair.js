@@ -6,13 +6,14 @@ var repairAction = {
         if (!target) {
             creep.memory.targetId = undefined;
             creep.memory.action = 'idle';
-            console.log('Creep [' + creep.name + '] has no target to repair. Idling.');
             creep.say('??');
+
+            console.log('Creep [' + creep.name + '] has no target to repair. Idling.');
             return;
         }
 
         if (creep.energy === 0) {
-            creep.memory.action = 'harvest';
+            creep.memory.action = afterAction ? afterAction : 'harvest';
             return;
         }
 
@@ -21,14 +22,9 @@ var repairAction = {
         if (repairResult === ERR_NOT_IN_RANGE) {
             creep.moveTo(target);
         } else if (repairResult === OK) {
-            creep.memory.targetId = undefined;
-            creep.memory.action = 'repair';
+            // creep.say('Repairing');
         }
     }
 };
-
-function findClosestSource(creep) {
-    var source = creep.pos.findClosest(FIND_SOURCES);
-}
 
 module.exports = repairAction;
