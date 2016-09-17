@@ -1,6 +1,6 @@
 /*jshint esversion: 6 */
 
-var creepsHelper = require('utils/creepsHelper');
+var creepsHelper = require('utils.creepsHelper');
 
 function _getNewCreepName(roleName) {
     // var creepsInRole = creepsHelper.getCreepsInRole(roleName).sort(function(c1, c2) {

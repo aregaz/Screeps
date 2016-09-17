@@ -1,5 +1,5 @@
-var creepsHelper = require('utils/creepsHelper');
-var nameGenerator = require('utils/nameGenerator');
+var creepsHelper = require('utils.creepsHelper');
+var nameGenerator = require('utils.nameGenerator');
 
 var populationFactory = {
     run: function(population, spawnName) {
