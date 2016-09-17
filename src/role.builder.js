@@ -20,7 +20,7 @@ function _stopIdleCondition(creep) {
 
 function _selectTarget(creep) {
     var target;
-    if (typeof creep.memory.targetId === 'undefined' || _isTargetRepaired(creep.memory.targetId)) {
+    if (creep.memory.targetId === null || typeof creep.memory.targetId === 'undefined') {
         target = _findConstructionSite(creep);
         creep.memory.targetId = target ? target.id : undefined;
     } else {
