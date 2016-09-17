@@ -1,6 +1,7 @@
 /*jshint esversion: 6 */
 var repairAction = require('action.repair');
 var idleAction = require('action.idle');
+var harvestAction = require('action.harvest');
 
 var repairerRole = {
     run: function(creep) {

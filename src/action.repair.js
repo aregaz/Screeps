@@ -1,6 +1,4 @@
 /*jshint esversion: 6 */
-var harvestAction = require('action.harvest');
-
 var repairAction = {
     run: function(creep, terget, afterAction) {
         if (creep.memory.action !== 'repair') return;
