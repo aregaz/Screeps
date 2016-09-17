@@ -1,5 +1,5 @@
 /*jshint esversion: 6 */
-var parkAction = require('action.park');
+var repairAction = require('action.repair');
 var idleAction = require('action.idle');
 
 var repairerRole = {
