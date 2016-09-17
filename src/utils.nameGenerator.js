@@ -24,7 +24,11 @@ function _getIdFromName(creepName) {
 
     try {
         var nameParts = creepName.split('_');
-        var id = parseInt(nameParts[1]);
+        var idString = nameParts[1];
+        if (idString === 'NaN') {
+            idString = "-1";
+        }
+        var id = parseInt(idString);
         return id;
     } catch (e) {
         console.log('ERROR: unable to parse creepId from his name ' + creepName + '. Exception: ${e}');
