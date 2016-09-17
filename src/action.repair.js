@@ -24,4 +24,4 @@ function findClosestSource(creep) {
     var source = creep.pos.findClosest(FIND_SOURCES);
 }
 
-module.exports = collectAction;
+module.exports = repairAction;
