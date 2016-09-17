@@ -3,6 +3,7 @@
 var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
+var roleRepairer = require('role.repairer');
 
 var populationFactory = require('populationFactory');
 
@@ -34,7 +35,7 @@ module.exports.loop = function () {
         function _isCreepAlive(creepName) {
             return typeof Game.creeps[creepName] !== 'undefined';
         }
-        
+
         for(var creepName in Memory.creeps) {
             if (Memory.creeps.hasOwnProperty(creepName)) {
                 if (!_isCreepAlive(creepName)) {
@@ -44,9 +45,9 @@ module.exports.loop = function () {
             }
         }
     }
-    
+
     _clearMemory();
-    
+
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
         if(creep.memory.role == 'harvester') {
@@ -57,6 +58,9 @@ module.exports.loop = function () {
         }
         if(creep.memory.role == 'builder') {
             roleBuilder.run(creep);
+        }
+        if(creep.memory.role == 'repairer') {
+            roleRepairer.run(creep);
         }
     }
 
@@ -78,6 +82,11 @@ module.exports.loop = function () {
             role: 'upgrader',
             count: 2,
             parts: [WORK, WORK, WORK,CARRY, MOVE]
+        },
+        {
+            role: 'repairer',
+            count: 2,
+            parts: [WORK, WORK, CARRY, MOVE]
         }
     ];
     populationFactory.run(population, 'Spawn1');

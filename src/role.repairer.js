@@ -1,6 +1,6 @@
 /*jshint esversion: 6 */
 var parkAction = require('action.park');
-var repairAction = require('action.repair');
+var idleAction = require('action.idle');
 
 var repairerRole = {
     run: function(creep) {
@@ -11,12 +11,13 @@ var repairerRole = {
             var source = creep.room.find(FIND_SOURCES)[0]; // TODO: choose nearest source
             harvestAction.run(creep, source, 'repair');
         } else {
-            creep.say('I`m useless :(');
+            creep.say('??');
 
-            console.log('No more demaged buildings');
-            creep.memory.action = 'park';
+            console.log('No more demaged buildings. Creep [' + creep.name + '] is idling.');
+            creep.memory.action = 'idle';
             creep.memory.targetId = undefined;
-            parkAction.run(creep, 18, 41, 'idle');
+
+            idleAction.run(creep, { x:18, y:41 }, null, 'repair');
         }
     }
 };
