@@ -8,18 +8,13 @@ var repairerRole = {
         var target = _selectTarget(creep);
 
         if (target) {
-            repairAction.run(creep, target, 'repair');
-            var source = creep.room.find(FIND_SOURCES)[0]; // TODO: choose nearest source
-            harvestAction.run(creep, source, 'repair');
-        } else {
-            creep.say('??');
-
-            console.log('No more demaged buildings. Creep [' + creep.name + '] is idling.');
-            creep.memory.action = 'idle';
-            creep.memory.targetId = undefined;
-
-            idleAction.run(creep, { x:22, y:28 }, null, 'repair');
+            creep.memory.action = 'repair';
         }
+
+        repairAction.run(creep, target, 'repair');
+        var source = creep.room.find(FIND_SOURCES)[0]; // TODO: choose nearest source
+        harvestAction.run(creep, source, 'repair');
+        idleAction.run(creep, { x:22, y:28 }, null, 'repair');
     }
 };
 
