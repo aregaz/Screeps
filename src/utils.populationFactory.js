@@ -23,8 +23,14 @@ var populationFactory = {
                 } else if(createCreepResult === ERR_BUSY) {
                     // busy
                 } else {
-                    console.log('Creep creation result: Name = [' + createCreepResult + '], ' +
-                        'Role = [' + Game.creeps[createCreepResult].memory.role + ']');
+                    var creep = Game.creeps[createCreepResult];
+                    if (creep) {
+                        console.log('Creep creation result: Name = [' + createCreepResult + '], ' +
+                            'Role = [' + creep.memory.role + ']');
+                    } else {
+                        console.log('Cannot create creep. Result = ' + createCreepResult);
+                    }
+
                 }
                 creepsInRoleCount++;
             }
