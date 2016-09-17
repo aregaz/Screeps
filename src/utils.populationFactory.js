@@ -15,7 +15,7 @@ var populationFactory = {
 
                 var createCreepResult = Game.spawns[spawnName].createCreep(
                     populationRule.parts,
-                    nameGenerator.new(populationRule.role),
+                    nameGenerator.getNewNameForRole(populationRule.role),
                     creepMemory);
                 if(createCreepResult === ERR_NOT_ENOUGH_ENERGY) {
                     var fullRoomEnergy = Game.rooms.W54S28.energyAvailable;

@@ -2,10 +2,7 @@
 
 var creepsHelper = require('utils.creepsHelper');
 
-function _getNewCreepName(roleName) {
-    // var creepsInRole = creepsHelper.getCreepsInRole(roleName).sort(function(c1, c2) {
-    //     return _getIdFromName(c1.name) > _getIdFromName(c2.name);
-    // });
+function _getNewNameForRole(roleName) {
     var creepIds = creepsHelper.getCreepsInRole(roleName)
         .map((creep) => creep.name)
         .map(_getIdFromName)
@@ -37,5 +34,5 @@ function _getIdFromName(creepName) {
 }
 
 module.exports = {
-    new: _getNewCreepName
+    getNewNameForRole: _getNewNameForRole
 };
