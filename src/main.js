@@ -9,21 +9,6 @@ var populationController = require('main.populationController');
 
 global.roomName = 'W54S28';
 
-global.getIdFromName = function(creepName) {
-    if (creepName.indexOf('_') === -1) {
-        return -1;
-    }
-
-    try {
-        var nameParts = creepName.split('_');
-        var id = parseInt(nameParts[1]);
-        return id;
-    } catch (e) {
-        console.log('ERROR: unable to parse creepId from his name ' + creepName + '. Exception: ${e}');
-        return -1;
-    }
-}
-
 global.filterCreeps = function(predicate) {
     var creepsInRole = [];
     for (var creepName in Game.creeps) {
@@ -51,23 +36,6 @@ global.printCreeps = function(creeps) {
 //global.printCreeps(global.filterCreeps(function(creep) {return creep.memory.role === "builder"}))
 
 module.exports.loop = function () {
-    function _clearMemory() {
-        function _isCreepAlive(creepName) {
-            return typeof Game.creeps[creepName] !== 'undefined';
-        }
-
-        for(var creepName in Memory.creeps) {
-            if (Memory.creeps.hasOwnProperty(creepName)) {
-                if (!_isCreepAlive(creepName)) {
-                    delete Memory.creeps[creepName];
-                    console.log('Creep memory for ' + creepName + ' was cleared');
-                }
-            }
-        }
-    }
-
-    _clearMemory();
-
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
         if(creep.memory.role == 'harvester') {
@@ -115,5 +83,5 @@ module.exports.loop = function () {
             startAction: 'harvest'
         }
     ];
-    populationController.run(population, 'Spawn1');
+    populationController.run(population, global.roomName, 'Spawn1');
 };
