@@ -7,7 +7,7 @@ var idleAction = require('action.idle');
 var roleHarvester = {
     run: function(creep) {
         var source = _findSource(creep);
-        var target = _findTarget(creep.room);
+        var target = _findTarget(creep);
 
         transferAction.run(creep, target, "harvest");
         harvestAction.run(creep, source, "transfer");
@@ -20,8 +20,8 @@ function _findSource(creep) {
     return source;
 }
 
-function _findTarget(room) {
-    var targets = room.find(FIND_STRUCTURES, {
+function _findTarget(creep) {
+    var targets = creep.room.find(FIND_STRUCTURES, {
             filter: (structure) => {
                 return ([STRUCTURE_SPAWN, STRUCTURE_EXTENSION, STRUCTURE_TOWER].indexOf(structure.structureType) > -1 &&
                         structure.energy < structure.energyCapacity) ||
