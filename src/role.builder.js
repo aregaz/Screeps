@@ -3,28 +3,36 @@ var harvestAction = require('action.harvest');
 var idleAction = require('action.idle');
 
 var roleBuilder = {
-
-    /** @param {Creep} creep **/
     run: function(creep) {
-        var nearestTarget = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES);
-        if (nearestTarget == null || typeof nearestTarget === 'undefined') {
-            // console.log('Builder [' + creep.name + '] cannot find a target to build.');
-            creep.say('??');
-            creep.memory.action = 'idle';
-        } else {
-            creep.memory.action = 'build';
-        }
-
-        var stopIdleCondition = function(creep) {
-            var nearestTarget = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES);
-            return neadersTarget != null;
-        };
+        var target = _selectTarget(creep);
 
         var source = creep.room.find(FIND_SOURCES)[1]; // TODO: choose nearest source
-        buildAction.run(creep, nearestTarget, 'harvest');
+        buildAction.run(creep, target, 'harvest');
         harvestAction.run(creep, source, "build");
-        idleAction.run(creep, {x: 8, y: 36}, stopIdleCondition, 'build');
+        idleAction.run(creep, {x: 8, y: 36}, _stopIdleCondition, 'build');
     }
 };
+
+function _stopIdleCondition(creep) {
+    var newTarget = _selectTarget(creep);
+    return neadersTarget !== null && typeof newTarget !== 'undefined';
+}
+
+function _selectTarget(creep) {
+    var target;
+    if (typeof creep.memory.targetId === 'undefined' || _isTargetRepaired(creep.memory.targetId)) {
+        target = _findConstructionSite(creep);
+        creep.memory.targetId = target ? target.id : undefined;
+    } else {
+        target = Game.getObjectById(creep.memory.targetId);
+    }
+
+    return target;
+}
+
+function _findConstructionSite(creep) {
+    var nearestTarget = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES);
+    return nearestTarget;
+}
 
 module.exports = roleBuilder;
