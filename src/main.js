@@ -83,5 +83,5 @@ module.exports.loop = function () {
             startAction: 'harvest'
         }
     ];
-    populationController.run(population, global.roomName, 'Spawn1');
+    populationController.run(population, 'Spawn1');
 };

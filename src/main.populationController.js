@@ -3,7 +3,7 @@ var populationHelper = require('utils.populationHelper');
 var _ = require('lodash');
 
 var populationController = {
-    run: function(population, roomName, spawnName) {
+    run: function(population, spawnName) {
         _clearMemory();
 
         for (var i = 0; i < population.length; i++) {
@@ -45,7 +45,7 @@ function _createCreep(populationRule, roomName, spawnName) {
         creepMemory);
 
     if(createCreepResult === ERR_NOT_ENOUGH_ENERGY) {
-        var fullRoomEnergy = Game.rooms[roomName].energyAvailable;
+        var fullRoomEnergy = Game.rooms[Game.spawns[spawnName].room.name].energyAvailable;
         var requiredEnergy = populationHelper.calculateBodyCost(populationRule.parts);
         console.log('Cannot create creep [' + populationRule.role +
             '] - no energy (' + fullRoomEnergy + '/' + requiredEnergy + ')');
