@@ -73,25 +73,30 @@ module.exports.loop = function () {
         {
             role: 'upgrader',
             count: 5,
-            parts: [WORK, CARRY, MOVE]
+            parts: [WORK, CARRY, MOVE],
+            startAction: 'harvest'
         }, {
             role: 'builder',
             count: 2,
-            parts: [WORK, CARRY, MOVE]
+            parts: [WORK, CARRY, MOVE],
+            startAction: 'harvest'
         }, {
             role: 'harvester',
             count: 3,
-            parts: [WORK, CARRY, MOVE]
+            parts: [WORK, CARRY, MOVE],
+            startAction: 'harvest'
         },
         {
             role: 'upgrader',
             count: 2,
-            parts: [WORK, WORK, WORK,CARRY, MOVE]
+            parts: [WORK, WORK, WORK,CARRY, MOVE],
+            startAction: 'harvest'
         },
         {
             role: 'repairer',
             count: 2,
-            parts: [WORK, WORK, CARRY, MOVE]
+            parts: [WORK, WORK, CARRY, MOVE],
+            startAction: 'harvest'
         }
     ];
     populationFactory.run(population, 'Spawn1');

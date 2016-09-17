@@ -7,10 +7,15 @@ var populationFactory = {
             var creepsInRole = _getCreepsInRole(populationRule.role);
             var creepsInRoleCount = creepsInRole.length;
             while (creepsInRoleCount < populationRule.count) {
+                var creepMemory = { role : populationRule.role };
+                if (typeof populationRule.startAction !== 'undefined') {
+                    creepMemory.action = populationRule.startAction;
+                }
+
                 var createCreepResult = Game.spawns[spawnName].createCreep(
                     populationRule.parts,
                     undefined,
-                    { role : populationRule.role });
+                    creepMemory);
                 if(createCreepResult === OK) {
                     console.log('New creep with role [' + populationRule.role + '] is been created');
                 } else if (createCreepResult === ERR_NOT_ENOUGH_ENERGY) {

@@ -7,10 +7,6 @@ var repairerRole = {
     run: function(creep) {
         var target = _selectTarget(creep);
 
-        if (target) {
-            creep.memory.action = 'repair';
-        }
-
         repairAction.run(creep, target, 'harvest');
         harvestAction.run(creep, _findClosestSource(creep), 'repair');
         idleAction.run(creep, { x:22, y:28 }, null, 'repair');
