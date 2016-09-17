@@ -1,6 +1,6 @@
 /*jshint esversion: 6 */
 var repairAction = {
-    run: function(creep, terget, afterAction) {
+    run: function(creep, target, afterAction) {
         if (creep.memory.action !== 'repair') return;
 
         if (creep.energy === 0) {
