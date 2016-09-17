@@ -5,10 +5,20 @@ var populationFactory = {
             // console.log(JSON.stringify(populationRule));
 
             var creepsInRole = _getCreepsInRole(populationRule.role);
-            while (creepsInRole.length < populationRule.count) {
-                console.log('New creep with role [' + populationRule.role + '] is been creating');
-                Game.spawns[spawnName].createCreep(populationRule.parts, undefined, { role : populationRule.role });
-                creepsInRole++;
+            var creepsInRoleCount = creepsInRole.length;
+            while (creepsInRoleCount < populationRule.count) {
+                var createCreepResult = Game.spawns[spawnName].createCreep(
+                    populationRule.parts,
+                    undefined,
+                    { role : populationRule.role });
+                if(createCreepResult === OK) {
+                    console.log('New creep with role [' + populationRule.role + '] is been created');
+                } else if (createCreepResult === ERR_NOT_ENOUGH_ENERGY) {
+                    console.log('Cannot create creep - no energy');
+                } else {
+                    console.log('Creep creation result = [' + createCreepResult + ']');
+                }
+                creepsInRoleCount++;
             }
         }
     }
