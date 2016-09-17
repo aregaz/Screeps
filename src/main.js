@@ -7,6 +7,8 @@ var roleRepairer = require('role.repairer');
 
 var populationFactory = require('populationFactory');
 
+global.roomName = 'W54S28';
+
 global.filterCreeps = function(predicate) {
     var creepsInRole = [];
     for (var creepName in Game.creeps) {
@@ -19,7 +21,7 @@ global.filterCreeps = function(predicate) {
     }
 
     return creepsInRole;
-}
+};
 
 global.printCreeps = function(creeps) {
     for (var i = 0; i < creeps.length; i++) {
@@ -29,7 +31,7 @@ global.printCreeps = function(creeps) {
             ', Action: ' + creep.memory.action +
             ', Body: ' + creep.body);
     }
-}
+};
 
 //global.printCreeps(global.filterCreeps(function(creep) {return creep.memory.role === "builder"}))
 

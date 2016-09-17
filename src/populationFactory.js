@@ -14,9 +14,11 @@ var populationFactory = {
                 if(createCreepResult === OK) {
                     console.log('New creep with role [' + populationRule.role + '] is been created');
                 } else if (createCreepResult === ERR_NOT_ENOUGH_ENERGY) {
-                    console.log('Cannot create creep - no energy');
+                    var fullRoomEnergy = Game.rooms.W54S28.energyAvailable;
+                    console.log('Cannot create creep - no energy (' + fullRoomEnergy+ ')');
                 } else {
-                    console.log('Creep creation result = [' + createCreepResult + ']');
+                    console.log('Creep creation result: Name = [' + createCreepResult + '], ' +
+                        'Role = [' + Game.creeps[createCreepResult].memory.role + ']');
                 }
                 creepsInRoleCount++;
             }
