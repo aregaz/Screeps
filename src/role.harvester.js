@@ -12,10 +12,8 @@ var roleHarvester = {
     run: function(creep) {
         // var source = _findSource(creep);
         // var target = _selectTarget(creep, source);
-        var source = locationHelper.setTarget(creep, 'sourceId', _findSource);
-        var target = locationHelper.setTarget(creep, 'targetId', function(cr) {
-            return _findTargetClosestToSource(cr, source);
-        });
+        var source = _selectSource(creep);
+        var target = _selectTarget(creep, source);
 
         transferAction.run(creep, target, "harvest");
         harvestAction.run(creep, source, "transfer");
@@ -23,23 +21,35 @@ var roleHarvester = {
     }
 };
 
+function _selectSource(creep, source) {
+    var target;
+    if (creep.memory.sourceId === null || typeof creep.memory.sourceId === 'undefined') {
+        target = _findSource(creep);
+        creep.memory.sourceId = target ? target.id : undefined;
+    } else {
+        target = Game.getObjectById(creep.memory.sourceId);
+    }
+
+    return target;
+}
+
 function _findSource(creep) {
     var source = creep.room.find(FIND_SOURCES)[0]; // TODO: choose nearest source
     // var source = creep.pos.findClosestByRange(FIND_ACTIVE_SOURCES)
     return source;
 }
 
-// function _selectTarget(creep, source) {
-//     var target;
-//     if (creep.memory.targetId === null || typeof creep.memory.targetId === 'undefined') {
-//         target = _findTargetClosestToSource(creep, source);
-//         creep.memory.targetId = target ? target.id : undefined;
-//     } else {
-//         target = Game.getObjectById(creep.memory.targetId);
-//     }
-//
-//     return target;
-// }
+function _selectTarget(creep, source) {
+    var target;
+    if (creep.memory.targetId === null || typeof creep.memory.targetId === 'undefined') {
+        target = _findTargetClosestToSource(creep, source);
+        creep.memory.targetId = target ? target.id : undefined;
+    } else {
+        target = Game.getObjectById(creep.memory.targetId);
+    }
+
+    return target;
+}
 
 function _findTargetClosestToSource(creep, source) {
     function _findClosestExtension(source) {

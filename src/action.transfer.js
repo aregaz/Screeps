@@ -18,6 +18,10 @@ var transferAction = {
         var transferResult = creep.transfer(target, RESOURCE_ENERGY);
         if(transferResult == ERR_NOT_IN_RANGE) {
             creep.moveTo(target);
+        } else if(transferResult === ERR_FULL) {
+            creep.memory.targetId = undefined;
+        } else {
+            creep.say(transferResult);
         }
     }
 };
