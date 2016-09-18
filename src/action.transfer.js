@@ -11,7 +11,7 @@ var transferAction = {
         }
 
         if (creep.carry.energy === 0) {
-            _harvest(creep, afterAction);
+            _finishTransferAction(creep, afterAction);
             return;
         }
 
@@ -19,9 +19,9 @@ var transferAction = {
         if (transferResult == ERR_NOT_IN_RANGE) {
             creep.moveTo(target);
         } else if (transferResult === ERR_FULL) {
-            creep.memory.targetId = undefined;
+            console.log('Harvester: target if already full');
         } else if (transferResult === ERR_NOT_ENOUGH_RESOURCES) {
-            _harvest(creep, afterAction);
+            _finishTransferAction(creep, afterAction);
             return;
         } else {
             creep.say(transferResult);
@@ -29,7 +29,7 @@ var transferAction = {
     }
 };
 
-function _harvest(creep, afterAction) {
+function _finishTransferAction(creep, afterAction) {
     creep.say('Empty');
     creep.memory.action = afterAction ? afterAction : 'harvest';
 }

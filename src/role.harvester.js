@@ -6,7 +6,14 @@ var harvestAction = require('action.harvest');
 var transferAction = require('action.transfer');
 var idleAction = require('action.idle');
 
-var locationHelper = require('utils.locationHelper');
+// var locationHelper = require('utils.locationHelper');
+
+var _isStructureFullConditions = {
+    STRUCTURE_EXTENSION: (structure) => structure.energy < structure.energyCapacity,
+    STRUCTURE_CONTAINER: (structure) => _.sum(structure.store) < structure.storeCapacity,
+    STRUCTURE_TOWER: (structure) => structure.energy < structure.energyCapacity,
+    STRUCTURE_STORAGE: (structure) => _.sum(structure.store) < structure.storeCapacity
+};
 
 var roleHarvester = {
     run: function(creep) {
@@ -48,42 +55,44 @@ function _selectTarget(creep, source) {
         target = Game.getObjectById(creep.memory.targetId);
     }
 
+    if (_isTargetIsFull(target)) {
+        creep.memory.targetId = undefined;
+        target = _selectTarget(creep, source);
+    }
+
     return target;
 }
 
 function _findTargetClosestToSource(creep, source) {
+    function checkStructure(structure, structureType) {
+        return structure.structureType === structureType &&
+        _isStructureFullConditions[structureType](structure)
+    }
+
     function _findClosestExtension(source) {
         var target = source.pos.findClosestByPath(FIND_STRUCTURES, {
-                filter: function(structure) {
-                    return structure.structureType === STRUCTURE_EXTENSION && structure.energy < structure.energyCapacity;
-                }
+            filter: function(structure) { return checkStructure(structure, STRUCTURE_EXTENSION); }
         });
         return target;
     }
 
     function _findClosestContainer(source) {
         var target = source.pos.findClosestByPath(FIND_STRUCTURES, {
-                filter: function(structure) {
-                    return structure.structureType === STRUCTURE_CONTAINER && _.sum(structure.store) < structure.storeCapacity;
-                }
+            filter: function(structure) { return checkStructure(structure, STRUCTURE_CONTAINER); }
         });
         return target;
     }
 
     function _findClosestTower(source) {
         var target = source.pos.findClosestByPath(FIND_STRUCTURES, {
-                filter: function(structure) {
-                    return structure.structureType === STRUCTURE_TOWER && structure.energy < structure.energyCapacity;
-                }
+            filter: function(structure) { return checkStructure(structure, STRUCTURE_TOWER); }
         });
         return target;
     }
 
     function _findClosestStorage(source) {
         var target = source.pos.findClosestByPath(FIND_STRUCTURES, {
-                filter: function(structure) {
-                    return structure.structureType === STRUCTURE_STORAGE && _.sum(structure.store) < structure.storeCapacity;
-                }
+            filter: function(structure) { return checkStructure(structure, STRUCTURE_STORAGE); }
         });
         return target;
     }
@@ -103,6 +112,13 @@ function _findTargetClosestToSource(creep, source) {
     if (target !== null && typeof target !== 'undefined') return target;
 
     return null;
+}
+
+function _isTargetIsFull(structure) {
+
+
+    var isFull = _isStructureFullConditions[structure.structureType](structure);
+    return isFull;
 }
 
 // function _findTarget(creep) {
