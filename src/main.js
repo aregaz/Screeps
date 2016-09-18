@@ -62,24 +62,24 @@ module.exports.loop = function () {
         {
             role: 'harvester',
             count: 3,
-            parts: [WORK, WORK, CARRY, MOVE],
+            parts: [WORK, CARRY, MOVE],
             startAction: 'harvest'
         },
         {
             role: 'builder',
             count: 2,
-            parts: [WORK, WORK, CARRY, MOVE],
+            parts: [WORK, CARRY, MOVE],
             startAction: 'harvest'
         }, {
             role: 'upgrader',
             count: 7,
-            parts: [WORK, WORK, WORK,CARRY, MOVE],
+            parts: [ WORK,CARRY, MOVE],
             startAction: 'harvest'
         },
         {
             role: 'repairer',
-            count: 2,
-            parts: [WORK, WORK, CARRY, MOVE],
+            count: 1,
+            parts: [WORK, CARRY, MOVE],
             startAction: 'harvest'
         }
     ];
