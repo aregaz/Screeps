@@ -13,7 +13,7 @@ var repairAction = {
         }
 
         if (creep.energy === 0) {
-            creep.memory.action = 'harvest';
+            _harvest(creep)
             return;
         }
 
@@ -23,8 +23,18 @@ var repairAction = {
             creep.moveTo(target);
         } else if (repairResult === OK) {
             // creep.say('Repairing');
+        } else if (repairResult === ERR_NOT_ENOUGH_RESOURCES) {
+            _harvest(creep)
+            return;
+        } else {
+            creep.say(repairResult);
         }
     }
 };
+
+function _harvest(creep) {
+    creep.memory.action = 'harvest';
+    creep.say('Empty');
+}
 
 module.exports = repairAction;

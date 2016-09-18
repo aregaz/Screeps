@@ -7,7 +7,7 @@ var harvestAction = {
         if (creep.memory.action !== 'harvest') return;
 
         if(creep.carry.energy >= creep.carryCapacity) {
-            creep.say("I'm full");
+            creep.say("Full");
             creep.memory.action = afterAction;
             return;
         }
