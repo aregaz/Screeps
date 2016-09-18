@@ -3,33 +3,37 @@
 var creepsHelper = require('utils.creepsHelper');
 
 function _getNewNameForRole(roleName) {
+    var number = 1;
+
     var creepIds = creepsHelper.getCreepsInRole(roleName)
         .map((creep) => creep.name)
         .map(_getIdFromName)
         .sort(function(a, b) {
             return a < b; // desc
         });
-    var maxId = creepIds[0];
+    if (creepsIds.length !== 0) {
+        number = creepIds[0] + 1;
+    }
 
-    return roleName + '_' + (maxId+1);
+    return roleName + '_' + number;
 }
 
 function _getIdFromName(creepName) {
-    if (creepName.indexOf('_') === -1) {
-        return -1;
-    }
-
     try {
         var nameParts = creepName.split('_');
+        if (nameParts.length !== 2) {
+            return 0
+        }
+
         var idString = nameParts[1];
-        if (idString === 'NaN') {
-            idString = "-1";
+        if (idString === 'NaN' || idString.length === 0) {
+            idString = "0";
         }
         var id = parseInt(idString);
         return id;
     } catch (e) {
-        console.log('ERROR: unable to parse creepId from his name ' + creepName + '. Exception: ${e}');
-        return -1;
+        console.log('ERROR: unable to parse creepId from his name ' + creepName + '. Exception: ' + e);
+        return 0;
     }
 }
 
