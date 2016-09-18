@@ -23,11 +23,11 @@ var roleHarvester = {
     }
 };
 
-// function _findSource(creep) {
-//     var source = creep.room.find(FIND_SOURCES)[0]; // TODO: choose nearest source
-//     // var source = creep.pos.findClosestByRange(FIND_ACTIVE_SOURCES)
-//     return source;
-// }
+function _findSource(creep) {
+    var source = creep.room.find(FIND_SOURCES)[0]; // TODO: choose nearest source
+    // var source = creep.pos.findClosestByRange(FIND_ACTIVE_SOURCES)
+    return source;
+}
 
 // function _selectTarget(creep, source) {
 //     var target;
