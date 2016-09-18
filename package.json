@@ -4,7 +4,8 @@
   "description": "Scripts of Screeps world",
   "main": "gruntfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha src/_*.test.js",
+    "test2": "mocha src/_*.test.js --recursive --watch"
   },
   "repository": {
     "type": "git",
@@ -21,5 +22,9 @@
   "bugs": {
     "url": "https://github.com/aregaz/Screeps/issues"
   },
-  "homepage": "https://github.com/aregaz/Screeps#readme"
+  "homepage": "https://github.com/aregaz/Screeps#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "sinon": "^1.17.5"
+  }
 }
