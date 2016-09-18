@@ -39,15 +39,13 @@ function _createCreep(populationRule, roomName, spawnName) {
         creepMemory.action = populationRule.startAction;
     }
 
-    var createCreepResult = Game.spawns[spawnName].createCreep(
-        populationRule.parts,
-        populationHelper.getNewNameForRole(populationRule.role),
-        creepMemory);
+    var newCreepName = populationHelper.getNewNameForRole(populationRule.role);
+    var createCreepResult = Game.spawns[spawnName].createCreep(populationRule.parts, newCreepName, creepMemory);
 
     if(createCreepResult === ERR_NOT_ENOUGH_ENERGY) {
         var fullRoomEnergy = Game.rooms[Game.spawns[spawnName].room.name].energyAvailable;
         var requiredEnergy = populationHelper.calculateBodyCost(populationRule.parts);
-        console.log('Cannot create creep [' + populationRule.role +
+        console.log('Cannot create creep [' + newCreepName + '][' + populationRule.role +
             '] - no energy (' + fullRoomEnergy + '/' + requiredEnergy + ')');
     } else if(createCreepResult === ERR_BUSY) {
         // busy

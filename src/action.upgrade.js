@@ -3,7 +3,7 @@ var upgradeAction = {
         if (creep.memory.action !== 'upgrade') return;
 
         if (creep.carry.energy === 0) {
-            creep.say('Out of energy');
+            creep.say('Empty');
             creep.memory.action = afterAction ? afterAction : 'harvest';
         }
 
