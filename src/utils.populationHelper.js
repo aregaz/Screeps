@@ -11,7 +11,7 @@ function _getNewNameForRole(roleName) {
         .sort(function(a, b) {
             return a < b; // desc
         });
-    if (creepsIds.length !== 0) {
+    if (creepIds.length !== 0) {
         number = creepIds[0] + 1;
     }
 
