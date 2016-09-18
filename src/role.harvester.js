@@ -12,7 +12,8 @@ var _isStructureFullConditions = {
     STRUCTURE_EXTENSION: (structure) => structure.energy < structure.energyCapacity,
     STRUCTURE_CONTAINER: (structure) => _.sum(structure.store) < structure.storeCapacity,
     STRUCTURE_TOWER: (structure) => structure.energy < structure.energyCapacity,
-    STRUCTURE_STORAGE: (structure) => _.sum(structure.store) < structure.storeCapacity
+    STRUCTURE_STORAGE: (structure) => _.sum(structure.store) < structure.storeCapacity,
+    STRUCTURE_SPAWN: (structure) => structure.energy < structure.energyCapacity
 };
 
 var roleHarvester = {
@@ -24,7 +25,13 @@ var roleHarvester = {
 
         transferAction.run(creep, target, "harvest");
         harvestAction.run(creep, source, "transfer");
-        idleAction.run(creep, { x:30, y:14 }, _stopIdleCondition, 'harvest');
+        idleAction.run(
+            creep,
+            { x:30, y:14 },
+            function(creep) {
+                return _stopIdleCondition(creep, source);
+            },
+            'harvest');
     }
 };
 
@@ -65,59 +72,46 @@ function _selectTarget(creep, source) {
 
 function _findTargetClosestToSource(creep, source) {
     function checkStructure(structure, structureType) {
+        var isStructureFull = _isStructureFullConditions[structureType];
+
         return structure.structureType === structureType &&
-        _isStructureFullConditions[structureType](structure)
+            (typeof isStructureFull !== 'function' || isStructureFull(structure));
     }
 
-    function _findClosestExtension(source) {
+    function findStructureClosestToStore(source, structureType) {
         var target = source.pos.findClosestByPath(FIND_STRUCTURES, {
-            filter: function(structure) { return checkStructure(structure, STRUCTURE_EXTENSION); }
+            filter: function(structure) { return checkStructure(structure, structureType); }
         });
         return target;
     }
 
-    function _findClosestContainer(source) {
-        var target = source.pos.findClosestByPath(FIND_STRUCTURES, {
-            filter: function(structure) { return checkStructure(structure, STRUCTURE_CONTAINER); }
-        });
-        return target;
-    }
+    var target;
 
-    function _findClosestTower(source) {
-        var target = source.pos.findClosestByPath(FIND_STRUCTURES, {
-            filter: function(structure) { return checkStructure(structure, STRUCTURE_TOWER); }
-        });
-        return target;
-    }
-
-    function _findClosestStorage(source) {
-        var target = source.pos.findClosestByPath(FIND_STRUCTURES, {
-            filter: function(structure) { return checkStructure(structure, STRUCTURE_STORAGE); }
-        });
-        return target;
-    }
-
-    var taget;
-
-    target = _findClosestExtension(source);
+    target = findStructureClosestToStore(source, STRUCTURE_EXTENSION);
     if (target !== null && typeof target !== 'undefined') return target;
 
-    target = _findClosestContainer(source);
+    target = findStructureClosestToStore(source, STRUCTURE_CONTAINER);
     if (target !== null && typeof target !== 'undefined') return target;
 
-    target = _findClosestTower(source);
+    target = findStructureClosestToStore(source, STRUCTURE_TOWER);
     if (target !== null && typeof target !== 'undefined') return target;
 
-    target = _findClosestStorage(source);
+    target = findStructureClosestToStore(source, STRUCTURE_STORAGE);
+    if (target !== null && typeof target !== 'undefined') return target;
+
+    target = findStructureClosestToStore(source, STRUCTURE_SPAWN);
     if (target !== null && typeof target !== 'undefined') return target;
 
     return null;
 }
 
 function _isTargetIsFull(structure) {
+    if (structure === null || typeof structure === 'undefined')  return false;
 
+    var conditionFunction = _isStructureFullConditions[structure.structureType];
+    if (typeof conditionFunction !== 'function') return false;
 
-    var isFull = _isStructureFullConditions[structure.structureType](structure);
+    var isFull = conditionFunction(structure);
     return isFull;
 }
 
@@ -133,8 +127,8 @@ function _isTargetIsFull(structure) {
 //     return targets[0]; // TODO: find closest target
 // }
 
-function _stopIdleCondition(creep) {
-    var target = _findTarget(creep);
+function _stopIdleCondition(creep, source) {
+    var target = _findTargetClosestToSource(creep, source);
     return target !== null && typeof target !== 'undefined';
 }
 
