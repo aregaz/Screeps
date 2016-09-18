@@ -11,7 +11,7 @@ var transferAction = {
         }
 
         if (creep.carry.energy === 0) {
-            _harvest();
+            _harvest(creep);
             return;
         }
 
@@ -21,7 +21,7 @@ var transferAction = {
         } else if (transferResult === ERR_FULL) {
             creep.memory.targetId = undefined;
         } else if (transferResult === ERR_NOT_ENOUGH_RESOURCES) {
-            _harvest();
+            _harvest(creep);
             return;
         } else {
             creep.say(transferResult);
@@ -29,7 +29,7 @@ var transferAction = {
     }
 };
 
-function _harvest() {
+function _harvest(creep) {
     creep.say('Empty');
     creep.memory.action = afterAction ? afterAction : 'harvest';
 }
