@@ -64,7 +64,6 @@ function _selectTarget(creep, source) {
         if (target !== null && typeof target !== undefined) {
             creep.memory.targetId = target.id;
             console.log('Creep [' + creep.name + '] has new target: [' +
-                // Game.getObjectById(target.id).strucutre
                 target.structureType + '(' +
                 target.pos.x + ', ' + target.pos.y + ')]'
             );
@@ -86,6 +85,10 @@ function _selectTarget(creep, source) {
     return target;
 }
 
+function _logStructure(structure) {
+    return '[' + structure.structureType + '(' + structure.pos.x + ', ' + structure.pos.y + ')]';
+}
+
 function _findTargetClosestToSource(creep, source) {
     function findAvailableStrucures(creep, structureType) {
         var targets = creep.room.find(FIND_MY_STRUCTURES, {
@@ -98,6 +101,7 @@ function _findTargetClosestToSource(creep, source) {
 
     function findClosest(position, targets) {
         var target = position.findClosestByPath(targets);
+        _logStructure(target);
         return target;
     }
 
@@ -117,27 +121,37 @@ function _findTargetClosestToSource(creep, source) {
     availableTargets = findAvailableStrucures(creep, STRUCTURE_EXTENSION);
     target = findClosest(source.pos, availableTargets);
     // target = findStructureClosestToStore(source, STRUCTURE_EXTENSION);
-    if (target !== null && typeof target !== 'undefined') return target;
+    if (target !== null && typeof target !== 'undefined')  {
+        return target;
+    }
 
     availableTargets = findAvailableStrucures(creep, STRUCTURE_CONTAINER);
     target = findClosest(source.pos, availableTargets);
     // target = findStructureClosestToStore(source, STRUCTURE_CONTAINER);
-    if (target !== null && typeof target !== 'undefined') return target;
+    if (target !== null && typeof target !== 'undefined') {
+        return target;
+    }
 
     availableTargets = findAvailableStrucures(creep, STRUCTURE_TOWER);
     target = findClosest(source.pos, availableTargets);
     // target = findStructureClosestToStore(source, STRUCTURE_TOWER);
-    if (target !== null && typeof target !== 'undefined') return target;
+    if (target !== null && typeof target !== 'undefined') {
+        return target;
+    }
 
     availableTargets = findAvailableStrucures(creep, STRUCTURE_STORAGE);
     target = findClosest(source.pos, availableTargets);
     // target = findStructureClosestToStore(source, STRUCTURE_STORAGE);
-    if (target !== null && typeof target !== 'undefined') return target;
+    if (target !== null && typeof target !== 'undefined') {
+        return target;
+    }
 
     availableTargets = findAvailableStrucures(creep, STRUCTURE_SPAWN);
     target = findClosest(source.pos, availableTargets);
     // target = findStructureClosestToStore(source, STRUCTURE_SPAWN);
-    if (target !== null && typeof target !== 'undefined') return target;
+    if (target !== null && typeof target !== 'undefined') {
+        return target;
+    }
 
     return null;
 }
@@ -160,7 +174,6 @@ function isFullStructure(structure) {
     } else if (structure.structureType === STRUCTURE_SPAWN) {
         condition = _isStructureFullConditions[STRUCTURE_SPAWN];
     } else {
-        // console.log('Wrong strucutre type');
         return true;
     }
 
