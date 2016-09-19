@@ -73,7 +73,7 @@ module.exports.loop = function () {
         }, {
             role: 'upgrader',
             count: 4,
-            parts: [ WORK, WORK, WORK, CARRY, MOVE],
+            parts: [ WORK, CARRY, MOVE],
             startAction: 'harvest'
         },
         {
