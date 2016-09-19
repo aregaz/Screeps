@@ -10,7 +10,10 @@ var idleAction = require('action.idle');
 var roleHarvester = {
     run: function(creep) {
         var source = _selectSource(creep);
-        var target = _selectTarget(creep, source);
+        // var target = _selectTarget(creep, source);
+
+        _updateTarget(creep, source);
+        var target = Game.getObjectById(creep.memory.targetId);
 
         transferAction.run(creep, target, "harvest");
         harvestAction.run(creep, source, "transfer");
@@ -40,18 +43,56 @@ function _findSource(creep) {
     return source;
 }
 
-function _selectTarget(creep, source) {
-    var target;
-    if (creep.memory.targetId === null || typeof creep.memory.targetId === 'undefined') {
+function _updateTarget(creep, source) {
+    function findNewTarget(creep, source) {
         target = _findTargetClosestToSource(creep, source);
         if (target) {
-            creep.memory.targetId = target.id;
             console.log('Creep ' + _logCreep(creep) + ' has new target: ' + _logStructure(target));
         } else {
-            creep.memory.targetId = undefined;
+            target = null;
+            console.log('Failed to find target for ' + _logCreep(creep));
+        }
+
+        return target;
+    }
+
+    var target;
+    if (creep.memory.targetId &&
+        !energyConsumerHelper.canReceiveEnergy(Game.getObjectById(creep.memory.targetId))) {
+        creep.memory.targetId = undefined;
+    }
+
+    if (creep.memory.targetId) {
+        return;
+    } else {
+        target = findNewTarget(creep, source);
+        creep.memory.targetId = target ? target.id : undefined;
+    }
+}
+
+function _selectTarget(creep, source) {
+    function findNewTarget(creep, source) {
+        target = _findTargetClosestToSource(creep, source);
+        if (target) {
+            console.log('Creep ' + _logCreep(creep) + ' has new target: ' + _logStructure(target));
+        } else {
+            target = null;
+            console.log('Failed to find target for ' + _logCreep(creep));
+        }
+
+        return target;
+    }
+
+    var target;
+    if (creep.memory.targetId) {
+        target = Game.getObjectById(creep.memory.targetId);
+        if (!energyConsumerHelper.canReceiveEnergy(target)) {
+            target = findNewTarget(creep, source);
+            creep.memory.targetId = target ? target.id : undefined;
         }
     } else {
-        target = Game.getObjectById(creep.memory.targetId);
+        target = findNewTarget(creep, source);
+        creep.memory.targetId = target ? target.id : undefined;
     }
 
     return target;
@@ -81,10 +122,7 @@ function _findTargetClosestToSource(creep, source) {
         var availableTargets = findAvailableStructures(creep, structureType);
 
         if (availableTargets.length === 0) {
-            // console.log('No empty [' + structureType + '] in the room');
             return null;
-        } else {
-            // console.log('Available [' + structureType + ']: ' + availableTargets.length);
         }
 
         var target = findClosest(source.pos, availableTargets);
@@ -128,27 +166,6 @@ function _findTargetClosestToSource(creep, source) {
 
     console.log('No target found');
     return null;
-}
-
-function isFullStructure(structure) {
-    if (!structure) {
-        console.log('Not a structure');
-        return true;
-    }
-
-    var condition = _map[structure.structureType];
-    if (!condition) {
-        console.log('No map for ' + _logStructure(structure));
-        return true;
-    }
-
-    if (typeof condition !== 'function') {
-        // console.log('No condition');
-        return true;
-    }
-
-    var isFull = condition(structure);
-    return isFull;
 }
 
 function _targetExists(creep, source) {

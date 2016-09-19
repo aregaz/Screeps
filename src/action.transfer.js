@@ -16,7 +16,7 @@ var transferAction = {
         if (transferResult == ERR_NOT_IN_RANGE) {
             creep.moveTo(target);
         } else if (transferResult === ERR_FULL) {
-            console.log('Harvester: target if already full');
+            console.log('Harvester [' + creep.name + '] - target if already full');
             creep.say('!!!');
             creep.memory.targetId = undefined;
         } else if (transferResult === ERR_NOT_ENOUGH_RESOURCES) {
