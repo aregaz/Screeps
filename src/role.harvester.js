@@ -86,6 +86,10 @@ function _selectTarget(creep, source) {
 }
 
 function _logStructure(structure) {
+    if (!structure) {
+        return '[]';
+    }
+    
     return '[' + structure.structureType + '(' + structure.pos.x + ', ' + structure.pos.y + ')]';
 }
 
