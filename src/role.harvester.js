@@ -90,7 +90,9 @@ function _logStructure(structure) {
         return '[]';
     }
 
-    return '[' + structure.structureType + '(' + structure.pos.x + ', ' + structure.pos.y + ')]';
+    var strucutreType = typeof structure.structureType !== undefined ?
+        structure.structureType : '';
+    return '[' + strucutreType + '(' + structure.pos.x + ', ' + structure.pos.y + ')]';
 }
 
 function _logCreep(creep) {
@@ -100,7 +102,7 @@ function _logCreep(creep) {
 function _findTargetClosestToSource(creep, source) {
     console.log('Searching closest target to ' + _logStructure(source) + ' for ' + _logCreep(creep));
 
-    function findAvailableStrucures(creep, structureType) {
+    function findAvailableStructures(creep, structureType) {
         var targets = creep.room.find(FIND_MY_STRUCTURES, {
             filter: function(structure) {
                 return structure.structureType === structureType && !isFullStructure(structure);
@@ -128,35 +130,62 @@ function _findTargetClosestToSource(creep, source) {
     var availableTargets;
     var target;
 
-    availableTargets = findAvailableStrucures(creep, STRUCTURE_EXTENSION);
-    target = findClosest(source.pos, availableTargets);
-    // target = findStructureClosestToStore(source, STRUCTURE_EXTENSION);
-    if (target !== null && typeof target !== 'undefined')  {
+    function trySelectTarget(creep, strucutreType) {
+        var availableTargets = findAvailableStructures(creep, strucutreType);
+
+        if (availableTargets.length === 0) {
+            console.log('No empty [' + strucutreType + '] in the room');
+            return false;
+        } else {
+            console.log('Available [' + strucutreType + ']: ' + availableTargets.length);
+        }
+
+        var target = findClosest(source.pos, availableTargets);
+        console.log();
+
+        if (target === null || typeof target === 'undefined')  {
+            return false;
+        } else {
+            return target;
+        }
+    }
+
+    // availableTargets = findAvailableStructures(creep, STRUCTURE_EXTENSION);
+    // console.log('Available extensions: ' + availableTargets.length);
+    // target = findClosest(source.pos, availableTargets);
+    // // target = findStructureClosestToStore(source, STRUCTURE_EXTENSION);
+    // if (target !== null && typeof target !== 'undefined')  {
+    //     return target;
+    // }
+    target = trySelectTarget(creep, STRUCTURE_EXTENSION);
+    if (target) {
+        console.log('Extension found ' + _logStructure(target));
         return target;
     }
 
-    availableTargets = findAvailableStrucures(creep, STRUCTURE_CONTAINER);
+    availableTargets = findAvailableStructures(creep, STRUCTURE_CONTAINER);
+    console.log('Available extensions: ' + availableTargets.length);
     target = findClosest(source.pos, availableTargets);
     // target = findStructureClosestToStore(source, STRUCTURE_CONTAINER);
     if (target !== null && typeof target !== 'undefined') {
         return target;
     }
 
-    availableTargets = findAvailableStrucures(creep, STRUCTURE_TOWER);
+    availableTargets = findAvailableStructures(creep, STRUCTURE_TOWER);
     target = findClosest(source.pos, availableTargets);
     // target = findStructureClosestToStore(source, STRUCTURE_TOWER);
     if (target !== null && typeof target !== 'undefined') {
         return target;
     }
 
-    availableTargets = findAvailableStrucures(creep, STRUCTURE_STORAGE);
+    availableTargets = findAvailableStructures(creep, STRUCTURE_STORAGE);
     target = findClosest(source.pos, availableTargets);
     // target = findStructureClosestToStore(source, STRUCTURE_STORAGE);
     if (target !== null && typeof target !== 'undefined') {
         return target;
     }
 
-    availableTargets = findAvailableStrucures(creep, STRUCTURE_SPAWN);
+    availableTargets = findAvailableStructures(creep, STRUCTURE_SPAWN);
     target = findClosest(source.pos, availableTargets);
     // target = findStructureClosestToStore(source, STRUCTURE_SPAWN);
     if (target !== null && typeof target !== 'undefined') {
