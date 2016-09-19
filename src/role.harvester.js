@@ -17,11 +17,11 @@ var _isStructureFullConditions = {
 };
 
 var _map = {};
-map[STRUCTURE_EXTENSION] = function(structure) { console.log(structure.energy + "/" + structure.energyCapacity); return structure.energy < structure.energyCapacity; };
-map[STRUCTURE_CONTAINER] = function(structure) { console.log(_.sum(structure.store) + "/" + structure.storeCapacity); return _.sum(structure.store) < structure.storeCapacity; };
-map[STRUCTURE_TOWER] = function(structure) { console.log(structure.energy + "/" + structure.energyCapacity); return structure.energy < structure.energyCapacity; };
-map[STRUCTURE_STORAGE] = function(structure) { console.log(_.sum(structure.store) + "/" + structure.storeCapacity); return _.sum(structure.store) < structure.storeCapacity; };
-map[STRUCTURE_SPAWN] = function(structure) { console.log(structure.energy + "/" + structure.energyCapacity); return structure.energy < structure.energyCapacity; };
+_map[STRUCTURE_EXTENSION] = function(structure) { console.log(structure.energy + "/" + structure.energyCapacity); return structure.energy < structure.energyCapacity; };
+_map[STRUCTURE_CONTAINER] = function(structure) { console.log(_.sum(structure.store) + "/" + structure.storeCapacity); return _.sum(structure.store) < structure.storeCapacity; };
+_map[STRUCTURE_TOWER] = function(structure) { console.log(structure.energy + "/" + structure.energyCapacity); return structure.energy < structure.energyCapacity; };
+_map[STRUCTURE_STORAGE] = function(structure) { console.log(_.sum(structure.store) + "/" + structure.storeCapacity); return _.sum(structure.store) < structure.storeCapacity; };
+_map[STRUCTURE_SPAWN] = function(structure) { console.log(structure.energy + "/" + structure.energyCapacity); return structure.energy < structure.energyCapacity; };
 
 var roleHarvester = {
     run: function(creep) {
