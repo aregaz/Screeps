@@ -3,10 +3,7 @@ var transferAction = {
         if (creep.memory.action !== 'transfer')  return;
 
         if (!target) {
-            creep.memory.action = 'idle';
             creep.say('??');
-
-            console.log('Harvester [' + creep.name + '] cannot find a target to bring enery to.');
             return;
         }
 

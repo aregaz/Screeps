@@ -16,7 +16,7 @@ var roleHarvester = {
         harvestAction.run(creep, source, "transfer");
         idleAction.run(
             creep,
-            { x:30, y:14 },
+            { x:23, y:10 },
             function(creep) { return _targetExists(creep, source); },
             'harvest');
     }
@@ -165,8 +165,8 @@ function _logStructure(structure) {
         return '[]';
     }
 
-    var structureType = typeof structure.structureType !== undefined ?
-        structure.structureType : '';
+    var structureType = typeof structure.structureType === undefined ?
+        '' : structure.structureType;
     return '[' + structureType + '(' + structure.pos.x + ', ' + structure.pos.y + ')]';
 }
 

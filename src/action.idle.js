@@ -6,6 +6,8 @@ module.exports = {
             var result = stopIdleCondition(creep);
             if (result) {
                 creep.memory.action = afterAction ? afterAction : 'harvest';
+            } else {
+                creep.say('zzz');
             }
         }
 

@@ -13,8 +13,12 @@ var harvestAction = {
         }
 
         var result = creep.harvest(source);
-        if(result == ERR_NOT_IN_RANGE) {
+        if (result == ERR_NOT_IN_RANGE) {
             creep.moveTo(source);
+        } else if(resut === OK) {
+
+        } else {
+            creep.say(result);
         }
     }
 };
