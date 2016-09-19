@@ -89,11 +89,17 @@ function _logStructure(structure) {
     if (!structure) {
         return '[]';
     }
-    
+
     return '[' + structure.structureType + '(' + structure.pos.x + ', ' + structure.pos.y + ')]';
 }
 
+function _logCreep(creep) {
+    return '[' + creep.name + ']';
+}
+
 function _findTargetClosestToSource(creep, source) {
+    console.log('Searching closest target to ' + _logStructure(source) + ' for ' + _logCreep(creep));
+
     function findAvailableStrucures(creep, structureType) {
         var targets = creep.room.find(FIND_MY_STRUCTURES, {
             filter: function(structure) {
