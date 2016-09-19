@@ -16,6 +16,13 @@ var _isStructureFullConditions = {
     STRUCTURE_SPAWN: function(structure) { console.log(structure.energy + "/" + structure.energyCapacity); return structure.energy < structure.energyCapacity; }
 };
 
+var _map = {};
+map[STRUCTURE_EXTENSION] = function(structure) { console.log(structure.energy + "/" + structure.energyCapacity); return structure.energy < structure.energyCapacity; };
+map[STRUCTURE_CONTAINER] = function(structure) { console.log(_.sum(structure.store) + "/" + structure.storeCapacity); return _.sum(structure.store) < structure.storeCapacity; };
+map[STRUCTURE_TOWER] = function(structure) { console.log(structure.energy + "/" + structure.energyCapacity); return structure.energy < structure.energyCapacity; };
+map[STRUCTURE_STORAGE] = function(structure) { console.log(_.sum(structure.store) + "/" + structure.storeCapacity); return _.sum(structure.store) < structure.storeCapacity; };
+map[STRUCTURE_SPAWN] = function(structure) { console.log(structure.energy + "/" + structure.energyCapacity); return structure.energy < structure.energyCapacity; };
+
 var roleHarvester = {
     run: function(creep) {
         // var source = _findSource(creep);
@@ -90,9 +97,9 @@ function _logStructure(structure) {
         return '[]';
     }
 
-    var strucutreType = typeof structure.structureType !== undefined ?
+    var structureType = typeof structure.structureType !== undefined ?
         structure.structureType : '';
-    return '[' + strucutreType + '(' + structure.pos.x + ', ' + structure.pos.y + ')]';
+    return '[' + structureType + '(' + structure.pos.x + ', ' + structure.pos.y + ')]';
 }
 
 function _logCreep(creep) {
@@ -130,14 +137,14 @@ function _findTargetClosestToSource(creep, source) {
     var availableTargets;
     var target;
 
-    function trySelectTarget(creep, strucutreType) {
-        var availableTargets = findAvailableStructures(creep, strucutreType);
+    function trySelectTarget(creep, structureType) {
+        var availableTargets = findAvailableStructures(creep, structureType);
 
         if (availableTargets.length === 0) {
-            console.log('No empty [' + strucutreType + '] in the room');
+            console.log('No empty [' + structureType + '] in the room');
             return false;
         } else {
-            console.log('Available [' + strucutreType + ']: ' + availableTargets.length);
+            console.log('Available [' + structureType + ']: ' + availableTargets.length);
         }
 
         var target = findClosest(source.pos, availableTargets);
@@ -196,23 +203,29 @@ function _findTargetClosestToSource(creep, source) {
 }
 
 function isFullStructure(structure) {
-    if (structure === null || typeof structure === 'undefined') {
+    if (!structure) {
         console.log('Not a structure');
         return true;
     }
 
-    var condition;
-    if (structure.structureType === STRUCTURE_EXTENSION) {
-        condition = _isStructureFullConditions[STRUCTURE_EXTENSION];
-    } else if (structure.structureType === STRUCTURE_CONTAINER) {
-        condition = _isStructureFullConditions[STRUCTURE_CONTAINER];
-    } else if (structure.structureType === STRUCTURE_TOWER) {
-        condition = _isStructureFullConditions[STRUCTURE_TOWER];
-    } else if (structure.structureType === STRUCTURE_STORAGE) {
-        condition = _isStructureFullConditions[STRUCTURE_STORAGE];
-    } else if (structure.structureType === STRUCTURE_SPAWN) {
-        condition = _isStructureFullConditions[STRUCTURE_SPAWN];
-    } else {
+    // var condition;
+    // if (structure.structureType === STRUCTURE_EXTENSION) {
+    //     condition = _isStructureFullConditions[STRUCTURE_EXTENSION];
+    // } else if (structure.structureType === STRUCTURE_CONTAINER) {
+    //     condition = _isStructureFullConditions[STRUCTURE_CONTAINER];
+    // } else if (structure.structureType === STRUCTURE_TOWER) {
+    //     condition = _isStructureFullConditions[STRUCTURE_TOWER];
+    // } else if (structure.structureType === STRUCTURE_STORAGE) {
+    //     condition = _isStructureFullConditions[STRUCTURE_STORAGE];
+    // } else if (structure.structureType === STRUCTURE_SPAWN) {
+    //     condition = _isStructureFullConditions[STRUCTURE_SPAWN];
+    // } else {
+    //     return true;
+    // }
+
+    var condition = _map[structure.structureType];
+    if (!condition) {
+        console.log('No map for ' + _logStructure(structure));
         return true;
     }
 
