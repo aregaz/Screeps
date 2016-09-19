@@ -6,7 +6,7 @@ var roleBuilder = {
     run: function(creep) {
         var target = _selectTarget(creep);
 
-        var source = creep.room.find(FIND_SOURCES)[1]; // TODO: choose nearest source
+        var source = creep.room.find(FIND_SOURCES)[0]; // TODO: choose nearest source
         buildAction.run(creep, target, 'harvest');
         harvestAction.run(creep, source, "build");
         idleAction.run(creep, {x: 8, y: 36}, _stopIdleCondition, 'build');
