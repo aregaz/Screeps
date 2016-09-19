@@ -61,13 +61,13 @@ module.exports.loop = function () {
         // },
         {
             role: 'harvester',
-            count: 3,
+            count: 4,
             parts: [WORK, CARRY, MOVE],
             startAction: 'harvest'
         },
         {
             role: 'builder',
-            count: 2,
+            count: 4,
             parts: [WORK, CARRY, MOVE],
             startAction: 'harvest'
         }, {
