@@ -28,10 +28,10 @@ var roleHarvester = {
         idleAction.run(
             creep,
             { x:30, y:14 },
-            // function(creep) {
-            //     return _stopIdleCondition(creep, source);
-            // },
-            _stopIdleCondition2,
+            function(creep) {
+                return _stopIdleCondition(creep, source);
+            },
+            // _stopIdleCondition2,
             'harvest');
     }
 };
@@ -58,8 +58,8 @@ var iteration = 1;
 function _selectTarget(creep, source) {
     var target;
     if (creep.memory.targetId === null || typeof creep.memory.targetId === 'undefined') {
-        // target = _findTargetClosestToSource(creep, source);
-        target = _findTarget(creep);
+        target = _findTargetClosestToSource(creep, source);
+        // target = _findTarget(creep);
         //console.log(target.pos);
         creep.memory.targetId = target ? target.id : undefined;
     } else {
@@ -78,59 +78,68 @@ function _selectTarget(creep, source) {
 }
 
 function _findTargetClosestToSource(creep, source) {
-    function findStructureClosestToStore(source1, structureType) {
-        var target = source1.pos.findClosestByPath(FIND_STRUCTURES, {
+    function findAvailableStrucures(creep, structureType) {
+        var targets = creep.room.find(FIND_MY_STRUCTURES, {
             filter: function(structure) {
-                // console.log(structure.structureType);
-                // console.log(structureType);
-                // console.log(source.pos);
-                // console.log();
-                return structure.structureType === structureType && !_isTargetIsFull(structure); }
+                return structure.structureType === structureType && !isFullStructure(structure);
+            }
         });
-        
+        return targets;
+    }
+
+    function findClosest(position, targets) {
+        var target = position.findClosestByPath(targets);
         return target;
     }
 
+    // function findStructureClosestToStore(source1, structureType) {
+    //     var target = source1.pos.findClosestByPath(FIND_STRUCTURES, {
+    //         filter: function(structure) {
+    //             return structure.structureType === structureType && !_isTargetIsFull(structure);
+    //         }
+    //     });
+    //
+    //     return target;
+    // }
+
+    var availableTargets;
     var target;
 
-    target = findStructureClosestToStore(source, STRUCTURE_EXTENSION);
+    availableTargets = findAvailableStrucures(creep, STRUCTURE_EXTENSION);
+    target = findClosest(source.pos, availableTargets);
+    // target = findStructureClosestToStore(source, STRUCTURE_EXTENSION);
     if (target !== null && typeof target !== 'undefined') return target;
 
-    target = findStructureClosestToStore(source, STRUCTURE_CONTAINER);
+    availableTargets = findAvailableStrucures(creep, STRUCTURE_CONTAINER);
+    target = findClosest(source.pos, availableTargets);
+    // target = findStructureClosestToStore(source, STRUCTURE_CONTAINER);
     if (target !== null && typeof target !== 'undefined') return target;
 
-    target = findStructureClosestToStore(source, STRUCTURE_TOWER);
+    availableTargets = findAvailableStrucures(creep, STRUCTURE_TOWER);
+    target = findClosest(source.pos, availableTargets);
+    // target = findStructureClosestToStore(source, STRUCTURE_TOWER);
     if (target !== null && typeof target !== 'undefined') return target;
 
-    target = findStructureClosestToStore(source, STRUCTURE_STORAGE);
+    availableTargets = findAvailableStrucures(creep, STRUCTURE_STORAGE);
+    target = findClosest(source.pos, availableTargets);
+    // target = findStructureClosestToStore(source, STRUCTURE_STORAGE);
     if (target !== null && typeof target !== 'undefined') return target;
 
-    target = findStructureClosestToStore(source, STRUCTURE_SPAWN);
+    availableTargets = findAvailableStrucures(creep, STRUCTURE_SPAWN);
+    target = findClosest(source.pos, availableTargets);
+    // target = findStructureClosestToStore(source, STRUCTURE_SPAWN);
     if (target !== null && typeof target !== 'undefined') return target;
 
     return null;
 }
 
-function _isTargetIsFull(structure) {
+function isFullStructure(structure) {
     if (structure === null || typeof structure === 'undefined') {
         console.log('Not a structure');
         return true;
     }
-    
-    /*
-    
-    var conditionFunction = _isStructureFullConditions[structure.structureType];
-    console.log(structure.structureType + ': ' + typeof conditionFunction);
-    if (typeof conditionFunction !== 'function') {
-        console.log('No condition');
-        return false;
-    }
-    console.log(conditionFunction);
-    
-    var isFull = conditionFunction(structure);
-    return isFull; */
-    
-     var condition;
+
+    var condition;
     if (structure.structureType === STRUCTURE_EXTENSION) {
         condition = _isStructureFullConditions[STRUCTURE_EXTENSION];
     } else if (structure.structureType === STRUCTURE_CONTAINER) {
@@ -145,16 +154,15 @@ function _isTargetIsFull(structure) {
         // console.log('Wrong strucutre type');
         return true;
     }
-    
-    if (typeof conditionFunction !== 'function') {
+
+    if (typeof condition !== 'function') {
         // console.log('No condition');
         return true;
     }
-    
+
     var isFull = condition(structure);
     return isFull;
 }
-
 
 function _findTarget(creep) {
     var targets = creep.room.find(FIND_MY_STRUCTURES, {
