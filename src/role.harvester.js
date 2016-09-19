@@ -9,7 +9,7 @@ var idleAction = require('action.idle');
 // var locationHelper = require('utils.locationHelper');
 
 var _isStructureFullConditions = {
-    STRUCTURE_EXTENSION: function(structure) { console.log(structure.energy + "/" + structure.energyCapacity); return structure.energy < structure.energyCapacity; },
+    STRUCTURE_EXTENSION: function(structure) { return structure.energy < structure.energyCapacity; },
     STRUCTURE_CONTAINER: function(structure) { console.log(_.sum(structure.store) + "/" + structure.storeCapacity); return _.sum(structure.store) < structure.storeCapacity; },
     STRUCTURE_TOWER: function(structure) { console.log(structure.energy + "/" + structure.energyCapacity); return structure.energy < structure.energyCapacity; },
     STRUCTURE_STORAGE: function(structure) { console.log(_.sum(structure.store) + "/" + structure.storeCapacity); return _.sum(structure.store) < structure.storeCapacity; },
@@ -112,7 +112,7 @@ function _findTargetClosestToSource(creep, source) {
     function findAvailableStructures(creep, structureType) {
         var targets = creep.room.find(FIND_MY_STRUCTURES, {
             filter: function(structure) {
-                return structure.structureType === structureType && !isFullStructure(structure);
+                return structure.structureType === structureType && canReceiveEnergy(structure);
             }
         });
         return targets;
@@ -232,6 +232,27 @@ function isFullStructure(structure) {
     if (typeof condition !== 'function') {
         // console.log('No condition');
         return true;
+    }
+
+    var isFull = condition(structure);
+    return isFull;
+}
+
+function canReceiveEnergy(structure) {
+    if (!structure) {
+        console.log('Not a structure');
+        return false;
+    }
+
+    var condition = _map[structure.structureType];
+    if (!condition) {
+        console.log('No map for ' + _logStructure(structure));
+        return false;
+    }
+
+    if (typeof condition !== 'function') {
+        // console.log('No condition');
+        return false;
     }
 
     var isFull = condition(structure);
