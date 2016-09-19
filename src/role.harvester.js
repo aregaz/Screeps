@@ -61,7 +61,16 @@ function _selectTarget(creep, source) {
         target = _findTargetClosestToSource(creep, source);
         // target = _findTarget(creep);
         //console.log(target.pos);
-        creep.memory.targetId = target ? target.id : undefined;
+        if (target !== null && typeof target !== undefined) {
+            creep.memory.targetId = target.id;
+            console.log('Creep [' + creep.name + '] has new target: [' +
+                // Game.getObjectById(target.id).strucutre
+                target.structureType + '(' +
+                target.pos.x + ', ' + target.pos.y + ')]'
+            );
+        } else {
+            creep.memory.targetId = undefined;
+        }
     } else {
         target = Game.getObjectById(creep.memory.targetId);
     }
