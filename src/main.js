@@ -7,7 +7,7 @@ var roleRepairer = require('role.repairer');
 
 var populationController = require('main.populationController');
 
-global.roomName = 'W54S28';
+global.roomName = 'E38N44';
 
 global.filterCreeps = function(predicate) {
     var creepsInRole = [];
@@ -61,24 +61,24 @@ module.exports.loop = function () {
         // },
         {
             role: 'harvester',
-            count: 4,
-            parts: [WORK, WORK, CARRY, MOVE],
+            count: 2,
+            parts: [WORK, CARRY, MOVE],
             startAction: 'harvest'
         },
         {
             role: 'builder',
-            count: 4,
+            count: 2,
             parts: [WORK, CARRY, MOVE],
             startAction: 'harvest'
         }, {
             role: 'upgrader',
             count: 4,
-            parts: [ WORK, WORK, CARRY, MOVE],
+            parts: [ WORK, CARRY, MOVE],
             startAction: 'harvest'
         },
         {
             role: 'repairer',
-            count: 1,
+            count: 2,
             parts: [WORK, CARRY, MOVE],
             startAction: 'harvest'
         }

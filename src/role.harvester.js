@@ -7,6 +7,8 @@ var harvestAction = require('action.harvest');
 var transferAction = require('action.transfer');
 var idleAction = require('action.idle');
 
+var logger = require('utils.logger');
+
 var roleHarvester = {
     run: function(creep) {
         var source = _selectSource(creep);
@@ -47,7 +49,7 @@ function _updateTarget(creep, source) {
     function findNewTarget(creep, source) {
         target = _findTargetClosestToSource(creep, source);
         if (target) {
-            console.log('Creep ' + _logCreep(creep) + ' has new target: ' + _logStructure(target));
+            console.log('Creep ' + logger.logCreep(creep) + ' has new target: ' + logger.logStructure(target));
         } else {
             target = null;
             console.log('Failed to find target for ' + _logCreep(creep));
@@ -60,6 +62,7 @@ function _updateTarget(creep, source) {
     if (creep.memory.targetId &&
         !energyConsumerHelper.canReceiveEnergy(Game.getObjectById(creep.memory.targetId))) {
         creep.memory.targetId = undefined;
+        console.log('Creep ' + _logCreep(creep) + ' has full target');
     }
 
     if (creep.memory.targetId) {
@@ -74,10 +77,10 @@ function _selectTarget(creep, source) {
     function findNewTarget(creep, source) {
         target = _findTargetClosestToSource(creep, source);
         if (target) {
-            console.log('Creep ' + _logCreep(creep) + ' has new target: ' + _logStructure(target));
+            console.log('Creep ' + logger.logCreep(creep) + ' has new target: ' + logger.logStructure(target));
         } else {
             target = null;
-            console.log('Failed to find target for ' + _logCreep(creep));
+            console.log('Failed to find target for ' + logger.logCreep(creep));
         }
 
         return target;
@@ -99,7 +102,7 @@ function _selectTarget(creep, source) {
 }
 
 function _findTargetClosestToSource(creep, source) {
-    console.log('Searching closest target to ' + _logStructure(source) + ' for ' + _logCreep(creep));
+    // console.log('Searching closest target to ' + logger.logStructure(source) + ' for ' + logger.logCreep(creep));
 
     function findAvailableStructures(creep, structureType) {
         var targets = creep.room.find(FIND_MY_STRUCTURES, {
@@ -111,7 +114,8 @@ function _findTargetClosestToSource(creep, source) {
     }
 
     function findClosest(position, targets) {
-        var target = position.findClosestByPath(targets);
+        // var target = position.findClosestByPath(targets);
+        var target = position.findClosestByRange(targets);
         return target;
     }
 
@@ -120,12 +124,16 @@ function _findTargetClosestToSource(creep, source) {
 
     function trySelectTarget(creep, structureType) {
         var availableTargets = findAvailableStructures(creep, structureType);
+        console.log('Available ' + structureType + ' count is ' + availableTargets.length);
 
         if (availableTargets.length === 0) {
             return null;
         }
 
         var target = findClosest(source.pos, availableTargets);
+        if (availableTargets.length > 0 && (target === null || typeof target === 'undefined')) {
+            console.log('FIND CLOSEST FAILED for ' + structureType);
+        }
 
         if (target === null || typeof target === 'undefined')  {
             return null;
@@ -136,31 +144,31 @@ function _findTargetClosestToSource(creep, source) {
 
     target = trySelectTarget(creep, STRUCTURE_EXTENSION);
     if (target) {
-        console.log('Extension found ' + _logStructure(target));
+        console.log('Extension found ' + logger.logStructure(target));
         return target;
     }
 
     target = trySelectTarget(creep, STRUCTURE_CONTAINER);
     if (target) {
-        console.log('Container found ' + _logStructure(target));
+        console.log('Container found ' + logger.logStructure(target));
         return target;
     }
 
     target = trySelectTarget(creep, STRUCTURE_TOWER);
     if (target) {
-        console.log('Tower found ' + _logStructure(target));
+        console.log('Tower found ' + logger.logStructure(target));
         return target;
     }
 
     target = trySelectTarget(creep, STRUCTURE_STORAGE);
     if (target) {
-        console.log('Storage found ' + _logStructure(target));
+        console.log('Storage found ' + logger.logStructure(target));
         return target;
     }
 
     target = trySelectTarget(creep, STRUCTURE_SPAWN);
     if (target) {
-        console.log('Spawn found ' + _logStructure(target));
+        console.log('Spawn found ' + logger.logStructure(target));
         return target;
     }
 
@@ -175,20 +183,6 @@ function _targetExists(creep, source) {
         console.log('Creep [' + creep.name + '] has no target');
     }
     return hasTarget;
-}
-
-function _logStructure(structure) {
-    if (!structure) {
-        return '[]';
-    }
-
-    var structureType = typeof structure.structureType === undefined ?
-        '' : structure.structureType;
-    return '[' + structureType + '(' + structure.pos.x + ', ' + structure.pos.y + ')]';
-}
-
-function _logCreep(creep) {
-    return '[' + creep.name + ']';
 }
 
 module.exports = roleHarvester;
